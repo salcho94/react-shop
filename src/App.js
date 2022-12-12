@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
+import mainImg from './img/bg.png';
 import { Button ,Navbar,Nav ,Container,Row ,Col , Card } from 'react-bootstrap';
 import Item from './page/item'
 import Detail from './page/detail'
@@ -17,12 +18,10 @@ function App() {
     <div className="App">
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
-                <Navbar.Brand href="#home">salcho-shop</Navbar.Brand>
+                <Navbar.Brand href="" onClick={() => navigate('/')}>salcho-shop</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="me-auto">
-
-                    </Nav>
+                    <Nav className="me-auto"/>
                     <Nav>
                         <Nav.Link href="" onClick={() => {navigate('/')}}>Home</Nav.Link>
                         <Nav.Link href="" onClick={() => {navigate('/detail')}}>Detail</Nav.Link>
@@ -32,21 +31,8 @@ function App() {
         </Navbar>
         <Routes>
             {/*라우트는 페이지라고 생각하면 된다 .*/}
-            <Route path="/" element={
-                <>
-                <div className="main-bg" style={{ backgroundImage : 'url(https://unsplash.it/1600/400?cart=9)'}}/>
-                <Container>
-                    <Row>
-                        {
-                            data.map((item,index) => {
-                                return (<Item item = {item} key={index}/>)
-                            })
-                        }
-                    </Row>
-                </Container>
-                </>
-            } />
-            <Route path="/detail" element={<Detail />} />
+            <Route path="/" element={<Main navigate={navigate} />} />
+            <Route path="/detail/:id" element={<Detail  data = {data}/>} />
             <Route path="/event" element={<Event />} >
                 <Route path="one" element={<div>첫 주문시 양배추 서비스</div>} />
                 <Route path="two" element={<div>생일 기념 쿠폰 받기</div>} />
@@ -61,6 +47,24 @@ function App() {
     </div>
   );
 }
+
+const Main =  (props) =>{
+    return(
+    <>
+        <div className="main-bg" style={{ backgroundImage : 'url('+mainImg+')'}}/>
+        <Container>
+            <Row>
+                {
+                    data.map((item,index) => {
+                        return (<Item item = {item} key={index} props={props}/>)
+                    })
+                }
+            </Row>
+        </Container>
+    </>
+    )
+}
+
 function Event(){
     return (
         <div>
