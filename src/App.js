@@ -32,7 +32,7 @@ function App() {
         <Routes>
             {/*라우트는 페이지라고 생각하면 된다 .*/}
             <Route path="/" element={<Main navigate={navigate} />} />
-            <Route path="/detail/:id" element={<Detail  data = {data}/>} />
+            <Route path="/detail/:id" element={<Detail  data = {data} navigate={navigate}/>} />
             <Route path="/event" element={<Event />} >
                 <Route path="one" element={<div>첫 주문시 양배추 서비스</div>} />
                 <Route path="two" element={<div>생일 기념 쿠폰 받기</div>} />

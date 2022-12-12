@@ -36,8 +36,8 @@ const Detail = (props) => {
                      <h4 className="pt-5">{props.data[id].title}</h4>
                      <p>{props.data[id].content}</p>
                      <p>{props.data[id].price}</p>
+                     <button className="btn btn-warning" onClick={() => props.navigate(-1)}>취소</button>
                      <button className="btn btn-danger">주문하기</button>
-
                  </div>
              </div>
          </div>
