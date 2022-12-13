@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import mainImg from './img/bg.png';
 import { Button ,Navbar,Nav ,Container,Row ,Col , Card } from 'react-bootstrap';
 import Item from './page/item'
@@ -8,10 +8,12 @@ import Detail from './page/detail'
 import data from './data';
 import { Routes , Route , Link, useNavigate, Outlet } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from "axios";
 
 function App() {
 
-  let [shoes] = useState();
+  let [ shoes ,setShoes] = useState(data);
+  let [moreBtn, setMoreBtn] = useState(1);
   let navigate = useNavigate();
 
   return (
@@ -24,14 +26,38 @@ function App() {
                     <Nav className="me-auto"/>
                     <Nav>
                         <Nav.Link href="" onClick={() => {navigate('/')}}>Home</Nav.Link>
-                        <Nav.Link href="" onClick={() => {navigate('/detail')}}>Detail</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
         <Routes>
             {/*라우트는 페이지라고 생각하면 된다 .*/}
-            <Route path="/" element={<Main navigate={navigate} />} />
+            <Route path="/" element={
+                <>
+                    <div className="main-bg" style={{ backgroundImage : 'url('+mainImg+')'}}/>
+                    <Container>
+                        <Row>
+                            {
+                                shoes.map((item,index) => {
+                                    return (<Item item = {item} key={index} navigate={navigate} />)
+                                })
+                            }
+                        </Row>
+                    </Container>
+                    <button className="btn btn-primary m-5" onClick={ () => {
+                        axios.get(`https://codingapple1.github.io/shop/data${moreBtn+1}.json`)
+                            .then((data) => {
+                                let newShoes = [...shoes, ...data.data];
+                                setMoreBtn(moreBtn + 1);
+                                setShoes(newShoes);
+                            })
+                            .catch(()=>{
+                                alert("데이터가 존재하지 않습니다 !!");
+                            })
+                    }}> MORE</button>
+                </>
+
+            } />
             <Route path="/detail/:id" element={<Detail  data = {data} navigate={navigate}/>} />
             <Route path="/event" element={<Event />} >
                 <Route path="one" element={<div>첫 주문시 양배추 서비스</div>} />
@@ -48,22 +74,6 @@ function App() {
   );
 }
 
-const Main =  (props) =>{
-    return(
-    <>
-        <div className="main-bg" style={{ backgroundImage : 'url('+mainImg+')'}}/>
-        <Container>
-            <Row>
-                {
-                    data.map((item,index) => {
-                        return (<Item item = {item} key={index} props={props}/>)
-                    })
-                }
-            </Row>
-        </Container>
-    </>
-    )
-}
 
 function Event(){
     return (

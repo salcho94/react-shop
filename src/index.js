@@ -9,7 +9,7 @@ import {BrowserRouter} from "react-router-dom"; // ./ 가 없으면 외부 라�
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
           <App />
       </BrowserRouter>
   </React.StrictMode>
