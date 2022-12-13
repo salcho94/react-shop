@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { useParams } from 'react-router-dom';
+import DetailTaps from "./detailTap";
 import styled from 'styled-components'
 import {forEach} from "react-bootstrap/ElementChildren";
 
@@ -73,6 +74,9 @@ const Detail = (props) => {
                     {/* {count}
                      <button className="btn btn-danger" onClick={() => {setCount(count+1)}}>update</button>*/}
                  </div>
+             </div>
+             <div className="row">
+                 <DetailTaps />
              </div>
          </div>
      :

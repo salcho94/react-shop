@@ -5,13 +5,14 @@ import mainImg from './img/bg.png';
 import { Button ,Navbar,Nav ,Container,Row ,Col , Card } from 'react-bootstrap';
 import Item from './page/item'
 import Detail from './page/detail'
+import Loding from './component/loding'
 import data from './data';
 import { Routes , Route , Link, useNavigate, Outlet } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 
 function App() {
-
+  let [loding , setLoding] = useState(false);
   let [ shoes ,setShoes] = useState(data);
   let [moreBtn, setMoreBtn] = useState(1);
   let navigate = useNavigate();
@@ -43,18 +44,25 @@ function App() {
                                 })
                             }
                         </Row>
+                        {loding && <Loding/>}
                     </Container>
-                    <button className="btn btn-primary m-5" onClick={ () => {
+
+                    {moreBtn < 3 &&
+                        <button className="btn btn-primary m-5" onClick={ () => {
+                            setLoding(loding = true);
                         axios.get(`https://codingapple1.github.io/shop/data${moreBtn+1}.json`)
                             .then((data) => {
                                 let newShoes = [...shoes, ...data.data];
                                 setMoreBtn(moreBtn + 1);
                                 setShoes(newShoes);
+                                setLoding(loding = false);
                             })
                             .catch(()=>{
                                 alert("데이터가 존재하지 않습니다 !!");
+                                setLoding(loding = false);
                             })
                     }}> MORE</button>
+                    }
                 </>
 
             } />
